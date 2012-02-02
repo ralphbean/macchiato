@@ -1,6 +1,5 @@
-from .compiler import Compiler
 
-from .compiler import Compiler
+from macchiato.compiler import Compiler
 
 class steam(object):
     """ Transmogrifies python functions into javascript """
@@ -39,5 +38,3 @@ class steam(object):
             result = "(%s)();" % result
 
         return result
-
-
