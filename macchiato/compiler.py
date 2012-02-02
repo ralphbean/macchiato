@@ -50,7 +50,7 @@ class Compiler(object):
     # TODO -- rewrite enter/leave as context-manager pieces?
     def enter(self):
         "Print ':', and increase the indentation."
-        self.write("{")
+        self.write(" {")
         self._indent += 1
 
     def leave(self):
