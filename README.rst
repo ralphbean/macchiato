@@ -3,8 +3,8 @@ macchiato - easy python to javascript compilation
 
 I have no idea if this is going to work.
 
->>> from macchiato import percolate
->>> @percolate(main="foo()")
+>>> from macchiato import steamified
+>>> @steamified(main="foo()")
 ... def foo():
 ...     def bar():
 ...         x = 0
