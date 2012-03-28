@@ -1,3 +1,6 @@
+import ast
+import inspect
+import StringIO
 
 from macchiato.compiler import Compiler
 
@@ -10,9 +13,6 @@ class steam(object):
 
 
     def __call__(self, func):
-        import ast
-        import inspect
-        import StringIO
 
         # Build our return buffer
         buf = StringIO.StringIO()
