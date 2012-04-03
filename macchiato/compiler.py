@@ -10,6 +10,7 @@ import os
 # We unparse those infinities to INFSTR.
 INFSTR = "1e" + repr(sys.float_info.max_10_exp + 1)
 
+
 def interleave(inter, f, seq):
     """Call f on each item in seq, calling inter() in between.
     """
@@ -23,6 +24,7 @@ def interleave(inter, f, seq):
             inter()
             f(x)
 
+
 class Compiler(object):
     """Methods in this class recursively traverse an AST and
     output source code for the abstract syntax; original formatting
@@ -35,7 +37,10 @@ class Compiler(object):
         self.f = file
         self.future_imports = []
         self._indent = 0
+
+        # Here's where the main work happens
         self.dispatch(tree)
+
         self.f.write("")
         self.f.flush()
 
