@@ -1,6 +1,6 @@
 from macchiato import percolate
 
-@percolate(main="foo()")
+@percolate()
 def foo():
     def bar():
         x = 0
@@ -11,4 +11,4 @@ def foo():
     print bar()
     return bar()
 
-print foo
+print """ "%s" """ % foo

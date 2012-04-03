@@ -7,9 +7,9 @@ from macchiato.compiler import Compiler
 class percolate(object):
     """ Transmogrifies python functions into javascript """
 
-    def __init__(self, main=None, closure=True):
-        self.main = main
-        self.closure = closure
+    def __init__(self):
+        # Use this for config options in the future
+        pass
 
 
     def __call__(self, func):
@@ -27,14 +27,5 @@ class percolate(object):
         tree = compile(source, '', 'exec', ast.PyCF_ONLY_AST)
         Compiler(tree, buf)
         result = buf.getvalue()
-
-        # Post processing
-        if self.main:
-            result += '\n' + self.main
-            if result[-1] != ';':
-                result += ';'
-
-        if self.closure:
-            result = "(%s)();" % result
 
         return result
