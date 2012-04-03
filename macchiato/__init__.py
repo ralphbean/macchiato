@@ -4,7 +4,7 @@ import StringIO
 
 from macchiato.compiler import Compiler
 
-class steamified(object):
+class percolate(object):
     """ Transmogrifies python functions into javascript """
 
     def __init__(self, main=None, closure=True):

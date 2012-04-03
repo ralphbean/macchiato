@@ -1,6 +1,6 @@
-from macchiato import steamified
+from macchiato import percolate
 
-@steamified(main="foo()")
+@percolate(main="foo()")
 def foo():
     def bar():
         x = 0
