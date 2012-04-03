@@ -15,14 +15,14 @@ I have no idea if this is going to work.
 ...     print bar()
 ...     return bar()
 >>> print foo
-"function foo() {
-
-  function bar() {
-    x = 0;
-    b = 2;
-    y = (x + b);
-    return y
-  }
-  console.log(bar());
-  return bar()
-}"
+... function foo() {
+...
+...   function bar() {
+...     x = 0;
+...     b = 2;
+...     y = (x + b);
+...     return y
+...   }
+...   console.log(bar());
+...   return bar()
+... }
