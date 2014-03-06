@@ -11,4 +11,4 @@ def foo():
     print bar()
     return bar()
 
-print """ "%s" """ % foo
+print "%s" % foo
