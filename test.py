@@ -1,5 +1,6 @@
 from macchiato import percolate
 
+
 @percolate()
 def foo():
     def bar():

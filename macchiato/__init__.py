@@ -4,13 +4,13 @@ import StringIO
 
 from macchiato.compiler import Compiler
 
+
 class percolate(object):
     """ Transmogrifies python functions into javascript """
 
     def __init__(self):
         # Use this for config options in the future
         pass
-
 
     def __call__(self, func):
 

@@ -44,7 +44,7 @@ class Compiler(object):
         self.f.write("")
         self.f.flush()
 
-    def fill(self, text = ""):
+    def fill(self, text=""):
         "Indent a piece of text, according to the current indentation level"
         self.f.write("\n%s%s" % (" " * self.tabstop * self._indent, text))
 
@@ -72,14 +72,12 @@ class Compiler(object):
         meth = getattr(self, "_"+tree.__class__.__name__)
         meth(tree)
 
-
     ############### Unparsing methods ######################
     # There should be one method per concrete grammar type #
     # Constructors should be grouped by sum type. Ideally, #
     # this would follow the order in the grammar, but      #
     # currently doesn't.                                   #
     ########################################################
-
     def _Module(self, tree):
         # TODO -- wrap this in a closure like coffee-script does?
         for stmt in tree.body:
@@ -174,8 +172,10 @@ class Compiler(object):
             self.dispatch(t.dest)
             do_comma = True
         for e in t.values:
-            if do_comma:self.write(", ")
-            else:do_comma=True
+            if do_comma:
+                self.write(", ")
+            else:
+                do_comma = True
             self.dispatch(e)
         if not t.nl:
             self.write(",")
@@ -440,7 +440,7 @@ class Compiler(object):
 
     def _Set(self, t):
         raise NotImplementedError
-        assert(t.elts) # should be at least one element
+        assert(t.elts)  # should be at least one element
         self.write("{")
         interleave(lambda: self.write(", "), self.dispatch, t.elts)
         self.write("}")
@@ -448,11 +448,13 @@ class Compiler(object):
     def _Dict(self, t):
         raise NotImplementedError
         self.write("{")
+
         def write_pair(pair):
             (k, v) = pair
             self.dispatch(k)
             self.write(": ")
             self.dispatch(v)
+
         interleave(lambda: self.write(", "), write_pair, zip(t.keys, t.values))
         self.write("}")
 
@@ -467,7 +469,8 @@ class Compiler(object):
             interleave(lambda: self.write(", "), self.dispatch, t.elts)
         self.write(")")
 
-    unop = {"Invert":"~", "Not": "not", "UAdd":"+", "USub":"-"}
+    unop = {"Invert": "~", "Not": "not", "UAdd": "+", "USub": "-"}
+
     def _UnaryOp(self, t):
         raise NotImplementedError
         self.write("(")
@@ -476,8 +479,8 @@ class Compiler(object):
         # If we're applying unary minus to a number, parenthesize the number.
         # This is necessary: -2147483648 is different from -(2147483648) on
         # a 32-bit machine (the first is an int, the second a long), and
-        # -7j is different from -(7j).  (The first has real part 0.0, the second
-        # has real part -0.0.)
+        # -7j is different from -(7j).  (The first has real part 0.0, the
+        # second has real part -0.0.)
         if isinstance(t.op, ast.USub) and isinstance(t.operand, ast.Num):
             self.write("(")
             self.dispatch(t.operand)
@@ -486,9 +489,12 @@ class Compiler(object):
             self.dispatch(t.operand)
         self.write(")")
 
-    binop = { "Add":"+", "Sub":"-", "Mult":"*", "Div":"/", "Mod":"%",
-                    "LShift":"<<", "RShift":">>", "BitOr":"|", "BitXor":"^", "BitAnd":"&",
-                    "FloorDiv":"//", "Pow": "**"}
+    binop = {
+        "Add": "+", "Sub": "-", "Mult": "*", "Div": "/", "Mod": "%",
+        "LShift": "<<", "RShift": ">>", "BitOr": "|", "BitXor": "^",
+        "BitAnd": "&", "FloorDiv": "//", "Pow": "**",
+    }
+
     def _BinOp(self, t):
         self.write("(")
         self.dispatch(t.left)
@@ -496,8 +502,12 @@ class Compiler(object):
         self.dispatch(t.right)
         self.write(")")
 
-    cmpops = {"Eq":"==", "NotEq":"!=", "Lt":"<", "LtE":"<=", "Gt":">", "GtE":">=",
-                        "Is":"is", "IsNot":"is not", "In":"in", "NotIn":"not in"}
+    cmpops = {
+        "Eq": "==", "NotEq": "!=", "Lt": "<", "LtE": "<=",
+        "Gt": ">", "GtE": ">=", "Is": "is", "IsNot": "is not",
+        "In": "in", "NotIn": "not in"
+    }
+
     def _Compare(self, t):
         raise NotImplementedError
         self.write("(")
@@ -508,6 +518,7 @@ class Compiler(object):
         self.write(")")
 
     boolops = {ast.And: 'and', ast.Or: 'or'}
+
     def _BoolOp(self, t):
         raise NotImplementedError
         self.write("(")
@@ -515,7 +526,7 @@ class Compiler(object):
         interleave(lambda: self.write(s), self.dispatch, t.values)
         self.write(")")
 
-    def _Attribute(self,t):
+    def _Attribute(self, t):
         raise NotImplementedError
         self.dispatch(t.value)
         # Special case: 3.__abs__() is a syntax error, so if t.value
@@ -531,21 +542,29 @@ class Compiler(object):
         self.write("(")
         comma = False
         for e in t.args:
-            if comma: self.write(", ")
-            else: comma = True
+            if comma:
+                self.write(", ")
+            else:
+                comma = True
             self.dispatch(e)
         for e in t.keywords:
-            if comma: self.write(", ")
-            else: comma = True
+            if comma:
+                self.write(", ")
+            else:
+                comma = True
             self.dispatch(e)
         if t.starargs:
-            if comma: self.write(", ")
-            else: comma = True
+            if comma:
+                self.write(", ")
+            else:
+                comma = True
             self.write("*")
             self.dispatch(t.starargs)
         if t.kwargs:
-            if comma: self.write(", ")
-            else: comma = True
+            if comma:
+                self.write(", ")
+            else:
+                comma = True
             self.write("**")
             self.dispatch(t.kwargs)
         self.write(")")
@@ -639,7 +658,8 @@ class Compiler(object):
         raise NotImplementedError
         self.write(t.name)
         if t.asname:
-            self.write(" as "+t.asname)
+            self.write(" as " + t.asname)
+
 
 def roundtrip(filename, output=sys.stdout):
     with open(filename, "r") as pyfile:
@@ -648,10 +668,9 @@ def roundtrip(filename, output=sys.stdout):
     Unparser(tree, output)
 
 
-
 def main(args):
     for a in args:
         roundtrip(a)
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main(sys.argv[1:])
